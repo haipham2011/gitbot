@@ -30,7 +30,7 @@ First, we have to produce a model stored in `data.pth` binary file by this comma
 ```
 cd gitbot-model && python train.py
 ```
-The model module is cpoied and modified based on this [repo](https://github.com/python-engineer/pytorch-chatbot)
+The model module is copied and modified based on this [repo](https://github.com/python-engineer/pytorch-chatbot)
 
 ## Start the backend
 Go to backend directory
