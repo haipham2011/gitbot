@@ -1,0 +1,72 @@
+{
+    "intents": [
+      {
+        "tag": "greeting",
+        "patterns": [
+          "Hi",
+          "Hey",
+          "How are you",
+          "Is anyone there?",
+          "Hello",
+          "Good day"
+        ],
+        "responses": [
+          "Hey :-)",
+          "Hello, thanks for visiting",
+          "Hi there, what can I do for you?",
+          "Hi there, how can I help?"
+        ]
+      },
+      {
+        "tag": "goodbye",
+        "patterns": ["Bye", "See you later", "Goodbye"],
+        "responses": [
+          "See you later, thanks for visiting",
+          "Have a nice day",
+          "Bye! Come back again soon."
+        ]
+      },
+      {
+        "tag": "thanks",
+        "patterns": ["Thanks", "Thank you", "That's helpful", "Thank's a lot!"],
+        "responses": ["Happy to help!", "Any time!", "My pleasure"]
+      },
+      {
+        "tag": "repos",
+        "patterns": [
+          "How many repos do I have?",
+          "Show me my repos",
+          "Do I have any repos?"
+        ],
+        "responses": [
+          "Here is your repos number",
+          "This is the number of repos"
+        ]
+      },
+      {
+        "tag": "events",
+        "patterns": [
+          "How many events do I have?",
+          "Show me my events",
+          "Can I check my events?",
+          "Do I have any events"
+        ],
+        "responses": [
+          "Here is your events information",
+          "These are your events"
+        ]
+      },
+      {
+        "tag": "Statistics",
+        "patterns": [
+          "Show me my github statistics graphs",
+          "Could you give me my github statistics?",
+          "Where is my statistics graphs?"
+        ],
+        "responses": [
+          "Your graphs will show in a minute",
+          "Here is your github statistics"
+        ]
+      }
+    ]
+  }
