@@ -16,6 +16,7 @@ Create a virtual environment `venv` by:
 
 ```
 virtualenv -p python3 .venv
+source .venv/bin/activate
 ```
 
 Install the python dependencies:
@@ -28,7 +29,7 @@ pip install -r requirements.txt
 First, we have to produce a model stored in `data.pth` binary file by this command:
 
 ```
-cd gitbot-model && python train.py
+cd gitbot-api/bot_model && python train.py
 ```
 The model module is copied and modified based on this [repo](https://github.com/python-engineer/pytorch-chatbot)
 
