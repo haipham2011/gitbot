@@ -1,16 +1,9 @@
-import sys
-import os
-
-path = os.getcwd()
-parent_dir = os.path.abspath(os.path.join(path, os.pardir))
-sys.path.insert(0, f'{parent_dir}/gitbot-model')
-
 from typing import Any, List
 import datetime
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import httpx
 from fastapi.middleware.cors import CORSMiddleware
-from chat import bot_response
+from bot_model.chat import bot_response
 from config import settings
 from pydantic import env_settings
 
@@ -58,9 +51,9 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 @app.get(f"/{GITBOT_API_PREFIX}/repos")
-async def get():
+async def get(github_account, token):
     async with httpx.AsyncClient() as client:
-        github_response = await client.get(f'{GITHUB_API_ADDRESS}/users/{GITHUB_USER}/repos')
+        github_response = await client.get(f'{GITHUB_API_ADDRESS}/users/{github_account}/repos')
         repos = github_response.json()
         repos_number = len(repos)
         forked_repos_number = len([repo for repo in repos if repo["fork"] == True])
@@ -77,9 +70,9 @@ async def get():
         return repo_info
 
 @app.get(f"/{GITBOT_API_PREFIX}/events")
-async def get():
+async def get(github_account, token):
     async with httpx.AsyncClient() as client:
-        github_response = await client.get(f'{GITHUB_API_ADDRESS}/users/{GITHUB_USER}/received_events')
+        github_response = await client.get(f'{GITHUB_API_ADDRESS}/users/{github_account}/received_events')
         events = github_response.json()
         events_number = len(events)
         pr_events_number = len([event for event in events if event["type"] == "PullRequestEvent"])
@@ -96,9 +89,9 @@ async def get():
         return event_info
 
 @app.get(f"/{GITBOT_API_PREFIX}/statistics")
-async def get():
+async def get(github_account, token):
     async with httpx.AsyncClient() as client:
-        github_repos_response = await client.get(f'{GITHUB_API_ADDRESS}/users/{GITHUB_USER}/repos')
+        github_repos_response = await client.get(f'{GITHUB_API_ADDRESS}/users/{github_account}/repos')
         repos = github_repos_response.json()
         repos.sort(key=lambda repo: datetime.datetime.strptime(repo["updated_at"], '%Y-%m-%dT%H:%M:%SZ'), reverse=True)
         recent_repos = [ { "name": repo["name"], "url": repo["html_url"] } for repo in repos[:3]]
@@ -106,8 +99,8 @@ async def get():
         code_frequency_repos = []
         commit_activity_repos = []
         for repo in recent_repos:
-            code_frequency_response = await client.get(f'{GITHUB_API_ADDRESS}/repos/{GITHUB_USER}/{repo["name"]}/stats/code_frequency')
-            commit_activity_response = await client.get(f'{GITHUB_API_ADDRESS}/repos/{GITHUB_USER}/{repo["name"]}/stats/commit_activity')
+            code_frequency_response = await client.get(f'{GITHUB_API_ADDRESS}/repos/{github_account}/{repo["name"]}/stats/code_frequency')
+            commit_activity_response = await client.get(f'{GITHUB_API_ADDRESS}/repos/{github_account}/{repo["name"]}/stats/commit_activity')
 
             code_frequency_response_json = code_frequency_response.json()
 

@@ -1,21 +1,16 @@
 import random
 import json
-from typing import Any, List, Mapping, Protocol
-
 import torch
 
-from model import NeuralNet
-from nltk_utils import bag_of_words, tokenize
-import os
+from .model import NeuralNet
+from .nltk_utils import bag_of_words, tokenize
 
-path = os.getcwd()
-parent_dir = os.path.abspath(os.path.join(path, os.pardir))
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-with open(f'{parent_dir}/gitbot-model/intents.json', 'r') as json_data:
+with open('bot_model/intents.json', 'r') as json_data:
     intents = json.load(json_data)
 
-FILE = f'{parent_dir}/gitbot-model/data.pth'
+FILE = 'bot_model/data.pth'
 
 data = torch.load(FILE)
 
