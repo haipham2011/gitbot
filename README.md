@@ -42,7 +42,6 @@ cd gitbot-api
 
 Create an `.env` file with this format:
 ```
-GITHUB_USER = <YOUR_GITHUB_ACCOUNT>
 GITHUB_API_ADDRESS = "https://api.github.com"
 GITBOT_API_NAME = "gitbot-api"
 API_VERSION = "v1"

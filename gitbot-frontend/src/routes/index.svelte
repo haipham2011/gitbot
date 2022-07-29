@@ -9,6 +9,8 @@
 	let message;
 	let messages = [];
 	let socket;
+	let githubAccount = '';
+	let token = '';
 
 	onMount(() => {
 		socket = new WebSocket(`ws://${VITE_BACKEND_HOST}:${VITE_BACKEND_PORT}/ws/${1234}`);
@@ -55,7 +57,7 @@
 	}
 
 	async function getRepos() {
-		const res = await fetch(`${API_URL}/repos`, {
+		const res = await fetch(`${API_URL}/repos?github_account=${githubAccount}&token=${token}`, {
 			method: 'GET'
 		});
 
@@ -71,7 +73,7 @@
 	}
 
 	async function getEvents() {
-		const res = await fetch(`${API_URL}/events`, {
+		const res = await fetch(`${API_URL}/events?github_account=${githubAccount}&token=${token}`, {
 			method: 'GET'
 		});
 
@@ -87,7 +89,7 @@
 	}
 
 	async function getStatistics() {
-		const res = await fetch(`${API_URL}/statistics`, {
+		const res = await fetch(`${API_URL}/statistics?github_account=${githubAccount}&token=${token}`, {
 			method: 'GET'
 		});
 
@@ -103,6 +105,16 @@
 	}
 </script>
 
+<div class="md:container md:mx-auto p-10">
+<div class="mb-6">
+    <label for="github_account" class="block mb-2 text-sm font-medium text-black">Your github account</label>
+    <input bind:value={githubAccount} id="github_account" class="border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+  </div>
+  <div class="mb-6">
+    <label for="token" class="block mb-2 text-sm font-medium text-black">Your token</label>
+    <input type="password" bind:value={token} id="token" class="border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+  </div>
+</div>
 <div class="md:container md:mx-auto p-10">
 	<div class="border rounded">
 		<div>

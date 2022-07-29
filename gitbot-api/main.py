@@ -8,7 +8,6 @@ from config import settings
 from pydantic import env_settings
 
 ENV = env_settings.read_env_file(settings.Config.env_file)
-GITHUB_USER = ENV["github_user"]
 GITHUB_API_ADDRESS = ENV["github_api_address"]
 GITBOT_API_NAME = ENV["gitbot_api_name"]
 API_VERSION = ENV["api_version"]
@@ -51,8 +50,8 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 @app.get(f"/{GITBOT_API_PREFIX}/repos")
-async def get(github_account, token):
-    async with httpx.AsyncClient() as client:
+async def get(github_account, token=""):
+    async with httpx.AsyncClient(auth=('bearer', token)) as client:
         github_response = await client.get(f'{GITHUB_API_ADDRESS}/users/{github_account}/repos')
         repos = github_response.json()
         repos_number = len(repos)
@@ -70,8 +69,8 @@ async def get(github_account, token):
         return repo_info
 
 @app.get(f"/{GITBOT_API_PREFIX}/events")
-async def get(github_account, token):
-    async with httpx.AsyncClient() as client:
+async def get(github_account, token=""):
+    async with httpx.AsyncClient(auth=('bearer', token)) as client:
         github_response = await client.get(f'{GITHUB_API_ADDRESS}/users/{github_account}/received_events')
         events = github_response.json()
         events_number = len(events)
@@ -89,8 +88,8 @@ async def get(github_account, token):
         return event_info
 
 @app.get(f"/{GITBOT_API_PREFIX}/statistics")
-async def get(github_account, token):
-    async with httpx.AsyncClient() as client:
+async def get(github_account, token=""):
+    async with httpx.AsyncClient(auth=('bearer', token)) as client:
         github_repos_response = await client.get(f'{GITHUB_API_ADDRESS}/users/{github_account}/repos')
         repos = github_repos_response.json()
         repos.sort(key=lambda repo: datetime.datetime.strptime(repo["updated_at"], '%Y-%m-%dT%H:%M:%SZ'), reverse=True)
